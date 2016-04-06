@@ -28,6 +28,7 @@ describe('itunesApiSearch - with wrongResult', function() {
     mockery.registerMock('request', requestWrongData);
     mockery.registerAllowable('../index.js');
     mockery.registerAllowable('string');
+    mockery.registerAllowable('querystring');
     itunesApiSearch = require('../index.js');
   });
 

@@ -1,4 +1,5 @@
 'use strict';
+let querystring = require('querystring')
 let request = require('request');
 let S = require('string');
 
@@ -14,7 +15,9 @@ function search(term, options, callback) {
 
   options = options ? options : {};
 
-  let url = baseUrl + 'term=' + term;
+  options.term = term;
+
+  let url = baseUrl + querystring.stringify(options);
 
   request(url, function(err, header, res) {
     if (err) {
