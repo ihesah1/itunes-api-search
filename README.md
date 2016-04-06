@@ -2,6 +2,7 @@
 Welcome to the iTunes API Search.
 
 With this module you can make any search to iTunes API.
+
 1.	You can search for any iTunes media:
 	* movie
 	* podcast
