@@ -25,11 +25,16 @@ With this module you can make any search to iTunes API.
 	* explicit
 3. Get all result in Objects
 4. Fast and Safe
+
+
 ## Install
+
 ```bash
 $ npm install itunes-api-search
 ```
+
 ## How to use
+
 ```javascript
 var itunesApiSearch = require('itunes-api-search');
 
