@@ -1,6 +1,6 @@
 {
   "name": "itunes-api-search",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Search iTunes API",
   "main": "index.js",
   "scripts": {
