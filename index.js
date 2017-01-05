@@ -29,12 +29,14 @@ function search(term, options, callback) {
     }
 
     try {
-      var data = JSON.parse(res);
+      let data = JSON.parse(res);
       data.term = term;
       callback(null, data);
     } catch (e) {
-      callback({ text: S(S(res).stripTags().s).replaceAll('  ', ' ').s.substring(5) });
-      return;
+      callback({
+        error: e,
+        text: S(S(res).stripTags().s).replaceAll('  ', ' ').s.substring(5),
+      });
     }
   }
 }
