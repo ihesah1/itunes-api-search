@@ -1,14 +1,12 @@
-'use strict';
-(function(){
-let chai = require('chai');
-let should = chai.should();
-let sinon = require('sinon');
-let mockery = require('mockery');
+const chai = require('chai');
+const should = chai.should();
+const sinon = require('sinon');
+const mockery = require('mockery');
 
-let sandbox = sinon.sandbox.create();
+const sandbox = sinon.sandbox.create();
 let itunesApiSearch;
 
-let requestWrongData = function(url, callback){
+function requestWrongData(url, callback){
   callback(
     null,
     {statusCode: 200},
@@ -20,15 +18,13 @@ describe('itunesApiSearch - with wrongResult', function() {
   before(function (){
     mockery.enable({
       warnOnReplace: false,
+	    warnOnUnregistered: false,
       useCleanCache: true
     });
   });
 
   beforeEach(function(){
     mockery.registerMock('request', requestWrongData);
-    mockery.registerAllowable('../index.js');
-    mockery.registerAllowable('string');
-    mockery.registerAllowable('querystring');
     itunesApiSearch = require('../index.js');
   });
 
@@ -42,14 +38,11 @@ describe('itunesApiSearch - with wrongResult', function() {
   });
 
   it('should callback be called if the search is not empty', function(done) {
-
     itunesApiSearch.search('test', null, function(err, res) {
       should.not.exist(res);
       should.exist(err);
-      should.exist(err.text);
-      err.text.should.equal('Your request produced an error. [newNullResponse]');
+      err.message.should.equal('Unexpected token < in JSON at position 0');
       done();
     });
   });
 });
-})();

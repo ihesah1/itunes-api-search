@@ -1,8 +1,6 @@
-'use strict';
-
-let querystring = require('querystring');
-let request = require('request');
-let S = require('string');
+const Promise = require('bluebird');
+const querystring = require('querystring');
+const request = require('request');
 
 exports.search = search;
 
@@ -20,23 +18,33 @@ function search(term, options, callback) {
 
   let url = baseUrl + querystring.stringify(options);
 
-  request(url, requestCallback);
+  return new Promise((resolve, reject) => {
+	  request(url, (err, header, result) => {
+		  if (err) {
+			  if (callback) {
+			  	callback(err);
+			  }
+			  reject(err);
+			  return;
+		  }
 
-  function requestCallback(err, header, res) {
-    if (err) {
-      callback(err);
-      return;
-    }
+		  let data;
+		  try {
+			  data = JSON.parse(result);
+		  } catch (e) {
+		  	if (callback) {
+		  		callback(e);
+			  }
+			  reject(e);
+			  return;
+		  }
 
-    try {
-      let data = JSON.parse(res);
-      data.term = term;
-      callback(null, data);
-    } catch (e) {
-      callback({
-        error: e,
-        text: S(S(res).stripTags().s).replaceAll('  ', ' ').s.substring(5),
-      });
-    }
-  }
+		  data.term = term;
+
+		  if (callback) {
+		  	callback(null, data);
+		  }
+		  resolve(data);
+	  });
+  });
 }
